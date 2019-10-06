@@ -1,16 +1,19 @@
 const int constGridWidth = 3;
 const int constGridHeight = 3;
 
-
-//TODO Change Sensors values
 //const int leftSensorTrigger = 99; //Declare Pins Trigger
 //const int leftSensorEcho = 99; //Declare sensor pin
 //
 //const int rightSensorTrigger = 99; //Declare Pins Trigger
 //const int rightSensorEcho = 99; //Declare sensor pin
 
-const int forwardSensorTrigger = 99; //Declare Pins Trigger
-const int forwardSensorEcho = 99; //Declare sensor pin
+const int forwardSensorTrigger = 12; //Declare Pins Trigger
+const int forwardSensorEcho = 13; //Declare sensor pin
+
+const int motorRDirection = 4;
+const int motorRPower = 5;
+const int motorLDirection = 6;
+const int motorLPower = 7;
 
 class Sensor {
   private:
@@ -117,6 +120,11 @@ class Robot {
           xIndex--;
           break;
       }
+      analogWrite(motorLPower, 100);
+      analogWrite(motorRPower, 100);
+      delay(250);
+      analogWrite(motorLPower, 0);
+      analogWrite(motorRPower, 0);
     }
 
     //TODO interact with mechanical system
@@ -135,6 +143,14 @@ class Robot {
           orientation = 'N';
           break;
       }
+      digitalWrite(motorLDirection, HIGH);
+      analogWrite(motorLPower, 100);
+      analogWrite(motorRPower, 100);
+      delay(250);
+      analogWrite(motorLPower, 0);
+      analogWrite(motorRPower, 0);
+      digitalWrite(motorLDirection, LOW);
+      
     }
 };
 
@@ -212,10 +228,17 @@ Robot robot = Robot('N');
 
 void setup() {
   // put your setup code here, to run once:
+  pinMode(motorRDirection,OUTPUT);
+  pinMode(motorLDirection,OUTPUT);
+  pinMode(motorRPower,OUTPUT);
+  pinMode(motorLPower,OUTPUT);  
 
+  digitalWrite(motorRDirection, HIGH);
+  digitalWrite(motorLDirection, LOW);
 }
 
 void loop() {
+  delay(5000);
 
   while (true) {
     //delay between steps
