@@ -106,6 +106,7 @@ class Robot {
 
     //TODO interact with mechanical system
     void moveForward() {
+      Serial.println("Move Forward");
       switch (orientation) {
         case 'N':
           yIndex++;
@@ -120,8 +121,8 @@ class Robot {
           xIndex--;
           break;
       }
-      analogWrite(motorLPower, 100);
-      analogWrite(motorRPower, 100);
+      analogWrite(motorLPower, 150);
+      analogWrite(motorRPower, 150);
       delay(250);
       analogWrite(motorLPower, 0);
       analogWrite(motorRPower, 0);
@@ -129,6 +130,7 @@ class Robot {
 
     //TODO interact with mechanical system
     void rotateRight() {
+      Serial.println("Rotate Right");
       switch (orientation) {
         case 'N':
           orientation = 'E';
@@ -144,8 +146,8 @@ class Robot {
           break;
       }
       digitalWrite(motorLDirection, HIGH);
-      analogWrite(motorLPower, 100);
-      analogWrite(motorRPower, 100);
+      analogWrite(motorLPower, 150);
+      analogWrite(motorRPower, 150);
       delay(250);
       analogWrite(motorLPower, 0);
       analogWrite(motorRPower, 0);
@@ -155,6 +157,7 @@ class Robot {
 };
 
 void scanAndUpdateGrid(Grid grid, Robot robot) {
+  Serial.println("Scanning and updating grid");
   switch (robot.orientation) {
     case 'N':
       if (robot.yIndex + 1 < grid.height) {
@@ -183,21 +186,26 @@ bool isPathAheadUnvisited(Grid grid, Robot robot) {
   switch (robot.orientation) {
     case 'N':
       if (robot.yIndex < grid.height - 1 && grid.getCoordValue(robot.xIndex, robot.yIndex + 1) == -1)  {
+        Serial.println("Path ahead is unvisited");
         return true;
       }
     case 'S':
       if (robot.yIndex > 0 && grid.getCoordValue(robot.xIndex, robot.yIndex - 1) == -1) {
+        Serial.println("Path ahead is unvisited");
         return true;
       }
     case 'E':
       if (robot.xIndex < grid.width - 1 && grid.getCoordValue(robot.xIndex + 1, robot.yIndex) == -1) {
+        Serial.println("Path ahead is unvisited");
         return true;
       }
     case 'W':
       if (robot.xIndex > 0 && grid.getCoordValue(robot.xIndex, robot.yIndex - 1) == -1) {
+        Serial.println("Path ahead is unvisited");
         return true;
       }
   }
+  Serial.println("Path ahead has been previously visited or is out of bounds");
   return false;
 }
 
@@ -205,21 +213,26 @@ bool isPathAheadClear(Grid grid, Robot robot) {
   switch (robot.orientation) {
     case 'N':
       if (robot.yIndex < grid.height - 1 && grid.getCoordValue(robot.xIndex, robot.yIndex + 1) != 1) {
+        Serial.println("Path ahead is clear");
         return true;
       }
     case 'S':
       if (robot.yIndex > 0 && grid.getCoordValue(robot.xIndex, robot.yIndex - 1) != 1) {
+        Serial.println("Path ahead is clear");
         return true;
       }
     case 'E':
       if (robot.xIndex < grid.width - 1 && grid.getCoordValue(robot.xIndex + 1, robot.yIndex) != 1) {
+        Serial.println("Path ahead is clear");
         return true;
       }
     case 'W':
       if (robot.xIndex > 0 && grid.getCoordValue(robot.xIndex, robot.yIndex - 1) != 1) {
+        Serial.println("Path ahead is clear");
         return true;
       }
   }
+  Serial.println("Path ahead is blocked");
   return false;
 }
 
@@ -235,14 +248,21 @@ void setup() {
 
   digitalWrite(motorRDirection, HIGH);
   digitalWrite(motorLDirection, LOW);
+
+  Serial.begin(9600);
 }
 
 void loop() {
   delay(5000);
-
+  Serial.println("Program begin");
+  
   while (true) {
     //delay between steps
     delay(100);
+    Serial.print("x: ");
+    Serial.print(robot.xIndex);
+    Serial.print(", y: ");
+    Serial.println(robot.yIndex);
 
     bool isPathUnvisited = isPathAheadUnvisited(grid, robot);
     scanAndUpdateGrid(grid, robot);
