@@ -19,7 +19,7 @@ class Sensor {
   private:
     int triggerPin;
     int echoPin;
-  
+ 
   public:
     Sensor(int inputTriggerPin, int inputEchoPin) {
       triggerPin = inputTriggerPin;
@@ -53,17 +53,17 @@ class Grid {
 
 
   public:
-    int innerGrid[3][3];
+    int innerGrid[constGridWidth][constGridHeight];
     int height;
     int width;
-  
+ 
     Grid() {
       width = constGridWidth;
       height = constGridHeight;
 
       for (int i = 0; i < constGridWidth; i++) {
         for (int j = 0; j < constGridHeight; j++) {
-          innerGrid[constGridWidth][constGridHeight] = -1;
+          innerGrid[i][j] = -1;
         }
       }
     }
@@ -71,7 +71,7 @@ class Grid {
     bool isComplete() {
       for (int i = 0; i < constGridWidth; i++) {
          for (int j = 0; j < constGridHeight; j++) {
-          if (innerGrid[constGridWidth][constGridHeight] == -1) {
+          if (innerGrid[i][j] == -1) {
             return false;
           }
         }
@@ -90,7 +90,7 @@ class Grid {
 
 class Robot {
   private:
-    
+   
   public:
     int xIndex;
     int yIndex;
@@ -98,7 +98,7 @@ class Robot {
 //    Sensor leftSensor = Sensor(leftSensorTrigger, leftSensorEcho);
 //    Sensor rightSensor = Sensor(rightSensorTrigger, rightSensorEcho);
     Sensor forwardSensor = Sensor(forwardSensorTrigger, forwardSensorEcho);
-  
+ 
     Robot(char inputOrientation) {
       xIndex = 1;
       yIndex = 0;
@@ -133,7 +133,7 @@ class Robot {
     void rotateRight() {
       Serial.print("Rotate Right, new orientation: ");
       Serial.println(orientation);
-      
+     
       switch (orientation) {
         case 'N':
           orientation = 'E';
@@ -155,7 +155,7 @@ class Robot {
       analogWrite(motorLPower, 0);
       analogWrite(motorRPower, 0);
       digitalWrite(motorLDirection, LOW);
-      
+     
     }
 };
 
@@ -201,21 +201,25 @@ bool isPathAheadUnvisited(Grid grid, Robot robot) {
         Serial.println("Path ahead is unvisited");
         return true;
       }
+      break;
     case 'S':
       if (robot.yIndex > 0 && grid.getCoordValue(robot.xIndex, robot.yIndex - 1) == -1) {
         Serial.println("Path ahead is unvisited");
         return true;
       }
+      break;
     case 'E':
       if (robot.xIndex < grid.width - 1 && grid.getCoordValue(robot.xIndex + 1, robot.yIndex) == -1) {
         Serial.println("Path ahead is unvisited");
         return true;
       }
+      break;
     case 'W':
       if (robot.xIndex > 0 && grid.getCoordValue(robot.xIndex, robot.yIndex - 1) == -1) {
         Serial.println("Path ahead is unvisited");
         return true;
       }
+      break;
   }
   Serial.println("Path ahead has been previously visited or is out of bounds");
   return false;
@@ -228,21 +232,25 @@ bool isPathAheadClear(Grid grid, Robot robot) {
         Serial.println("Path ahead is clear");
         return true;
       }
+      break;
     case 'S':
       if (robot.yIndex > 0 && grid.getCoordValue(robot.xIndex, robot.yIndex - 1) != 1) {
         Serial.println("Path ahead is clear");
         return true;
       }
+      break;
     case 'E':
       if (robot.xIndex < grid.width - 1 && grid.getCoordValue(robot.xIndex + 1, robot.yIndex) != 1) {
         Serial.println("Path ahead is clear");
         return true;
       }
+      break;
     case 'W':
       if (robot.xIndex > 0 && grid.getCoordValue(robot.xIndex, robot.yIndex - 1) != 1) {
         Serial.println("Path ahead is clear");
         return true;
       }
+      break;
   }
   Serial.println("Path ahead is blocked");
   return false;
@@ -265,25 +273,22 @@ void setup() {
 }
 
 void loop() {
-//  Serial.println("before loop");
-//  for (int i = 0; i < 5; i++) {
-//    Serial.println("loop hit");
-//  }
-  
+
+ 
+
       for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
           Serial.println("hiya");
 //          Serial.println(grid.innerGrid[i][j]);
         }
       }
-  
   delay(5000);
   Serial.println("Program begin");
 
-  
+ 
   while (true) {
 
-    
+   
     //delay between steps
     delay(100);
     Serial.print("x: ");
@@ -295,7 +300,7 @@ void loop() {
     scanAndUpdateGrid(grid, robot);
 
     if (isPathUnvisited && isPathAheadClear(grid, robot)) {
-      robot.moveForward(); 
+      robot.moveForward();
     } else {
       robot.rotateRight();
     }  
