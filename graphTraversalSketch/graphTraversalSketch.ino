@@ -130,7 +130,9 @@ class Robot {
 
     //TODO interact with mechanical system
     void rotateRight() {
-      Serial.println("Rotate Right");
+      Serial.print("Rotate Right, new orientation: ");
+      Serial.println(orientation);
+      
       switch (orientation) {
         case 'N':
           orientation = 'E';
@@ -182,9 +184,18 @@ void scanAndUpdateGrid(Grid grid, Robot robot) {
   }
 }
 
+// Path ahead has been previously visited or is out of bounds
+//Scanning and updating grid
+//Rotate Right
+//x: 1, y: 0
+
 bool isPathAheadUnvisited(Grid grid, Robot robot) {
   switch (robot.orientation) {
     case 'N':
+      Serial.print("Grid Height: ");
+      Serial.println(grid.height);
+      Serial.print("Future Coordinate Value: ");
+      Serial.println(grid.getCoordValue(robot.xIndex, robot.yIndex + 1));
       if (robot.yIndex < grid.height - 1 && grid.getCoordValue(robot.xIndex, robot.yIndex + 1) == -1)  {
         Serial.println("Path ahead is unvisited");
         return true;
