@@ -65,6 +65,11 @@ class Grid {
           innerGrid[constGridWidth][constGridHeight] = -1;
         }
       }
+      for (int i; i < 3; i++) {
+        for (int j; j < constGridHeight; j++) {
+          Serial.println(innerGrid[i][j]);
+        }
+      }
     }
 
     bool isComplete() {
