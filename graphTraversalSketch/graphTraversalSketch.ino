@@ -260,6 +260,8 @@ void setup() {
 
   digitalWrite(motorRDirection, HIGH);
   digitalWrite(motorLDirection, LOW);
+
+    Serial.begin(9600);
 }
 
 void loop() {
