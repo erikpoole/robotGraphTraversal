@@ -53,7 +53,7 @@ class Grid {
 
 
   public:
-    int innerGrid[constGridWidth][constGridHeight];
+    int innerGrid[3][3];
     int height;
     int width;
   
@@ -265,16 +265,17 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("before loop");
-  for (int i = 0; i < 5; i++) {
-    Serial.println("loop hit");
-  }
+//  Serial.println("before loop");
+//  for (int i = 0; i < 5; i++) {
+//    Serial.println("loop hit");
+//  }
   
-//      for (int i = 0; i < 3; i++) {
-//        for (int j = 0; j < 3; j++) {
+      for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+          Serial.println("hiya");
 //          Serial.println(grid.innerGrid[i][j]);
-//        }
-//      }
+        }
+      }
   
   delay(5000);
   Serial.println("Program begin");
