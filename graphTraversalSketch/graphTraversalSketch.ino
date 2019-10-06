@@ -50,27 +50,27 @@ class Sensor {
 class Grid {
   private:
   //TODO change to pointer and dynamically size
-    int innerGrid[constGridHeight][constGridWidth];
+    int innerGrid[constGridWidth][constGridHeight];
 
   public:
     int height;
     int width;
   
     Grid() {
-      height = constGridHeight;
       width = constGridWidth;
+      height = constGridHeight;
 
       for (int i; i < constGridWidth; i++) {
         for (int j; j < constGridHeight; j++) {
-          innerGrid[constGridHeight][constGridWidth] = -1;
+          innerGrid[constGridWidth][constGridHeight] = -1;
         }
       }
     }
 
     bool isComplete() {
-      for (int i; i < constGridHeight; i++) {
-        for (int j; j < constGridWidth; j++) {
-          if (innerGrid[constGridHeight][constGridWidth] == -1) {
+      for (int j; j < constGridWidth; j++) {
+         for (int i; i < constGridHeight; i++) {
+          if (innerGrid[constGridWidth][constGridHeight] == -1) {
             return false;
           }
         }
