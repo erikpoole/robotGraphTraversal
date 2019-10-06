@@ -61,16 +61,16 @@ class Grid {
       width = constGridWidth;
       height = constGridHeight;
 
-      for (int i; i < constGridWidth; i++) {
-        for (int j; j < constGridHeight; j++) {
+      for (int i = 0; i < constGridWidth; i++) {
+        for (int j = 0; j < constGridHeight; j++) {
           innerGrid[constGridWidth][constGridHeight] = -1;
         }
       }
     }
 
     bool isComplete() {
-      for (int j; j < constGridWidth; j++) {
-         for (int i; i < constGridHeight; i++) {
+      for (int i = 0; i < constGridWidth; i++) {
+         for (int j = 0; j < constGridHeight; j++) {
           if (innerGrid[constGridWidth][constGridHeight] == -1) {
             return false;
           }
@@ -265,11 +265,16 @@ void setup() {
 }
 
 void loop() {
-      for (int i; i < 3; i++) {
-        for (int j; j < 3; j++) {
-          Serial.println(grid.innerGrid[i][j]);
-        }
-      }
+  Serial.println("before loop");
+  for (int i = 0; i < 5; i++) {
+    Serial.println("loop hit");
+  }
+  
+//      for (int i = 0; i < 3; i++) {
+//        for (int j = 0; j < 3; j++) {
+//          Serial.println(grid.innerGrid[i][j]);
+//        }
+//      }
   
   delay(5000);
   Serial.println("Program begin");
