@@ -50,9 +50,10 @@ class Sensor {
 class Grid {
   private:
   //TODO change to pointer and dynamically size
-    int innerGrid[constGridWidth][constGridHeight];
+
 
   public:
+    int innerGrid[constGridWidth][constGridHeight];
     int height;
     int width;
   
@@ -63,11 +64,6 @@ class Grid {
       for (int i; i < constGridWidth; i++) {
         for (int j; j < constGridHeight; j++) {
           innerGrid[constGridWidth][constGridHeight] = -1;
-        }
-      }
-      for (int i; i < 3; i++) {
-        for (int j; j < constGridHeight; j++) {
-          Serial.println(innerGrid[i][j]);
         }
       }
     }
@@ -264,15 +260,22 @@ void setup() {
 
   digitalWrite(motorRDirection, HIGH);
   digitalWrite(motorLDirection, LOW);
-
-  Serial.begin(9600);
 }
 
 void loop() {
+      for (int i; i < 3; i++) {
+        for (int j; j < 3; j++) {
+          Serial.println(grid.innerGrid[i][j]);
+        }
+      }
+  
   delay(5000);
   Serial.println("Program begin");
+
   
   while (true) {
+
+    
     //delay between steps
     delay(100);
     Serial.print("x: ");
